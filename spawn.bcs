@@ -1,0 +1,144 @@
+SCRIPT_NAME = "spawn";
+SCRIPT_DESC = "Spawn inform trigger set.";
+SCRIPT_OFF = false;
+
+// Made by Ordos
+// Last Modified: 26.06.2017
+// Shows spawn skill & tentacle status with colors.
+// Also some spawn up/dropping/reload/dropped triggers.
+
+SPAWN1 = "";
+SPAWN2 = "";
+
+void bootup()
+{
+
+ triggerManager.newTrigger(
+	0,
+	"spawn_messages",
+	"^You kneel and pray to Azzarakk. ([ A-ZDEVa-zde',._-]+)[.|!] ([ A-ZDEVa-zde',._-]+)[.|!]",
+	"$"+SCRIPT_NAME+".spawn_messages",
+	true,
+	false,
+	false,
+	null, Font.PLAIN);
+
+ triggerManager.newTrigger(
+	0,
+	"spawn_up",
+	"^You feel like (.*) as good as the current Octopus.",
+	"party report Spawn ready! ( %1 ) good as the current Octopus",
+	false,
+	false,
+	false,
+	null, Font.PLAIN);
+ triggerManager.newTrigger(
+	0,
+	"spawn_dropping",
+	"^You feel like the pulse of chaos inside you is slowing down!",
+	"party report Spawn about to drop! (2 mins left)",
+	false,
+	false,
+	false,
+	null, Font.PLAIN);
+
+ triggerManager.newTrigger(
+	0,
+	"spawn_reload",
+	"^You force yourself deeper into the chaos frenzy!",
+	"party report ReSpawn done!",
+	false,
+	false,
+	false,
+	null, Font.PLAIN);
+
+ triggerManager.newTrigger(
+	0,
+	"spawn_down",
+	"^The extra organs retract back into your body.",
+	"party report Spawn dropped!",
+	false,
+	false,
+	false,
+	null, Font.PLAIN);
+
+}
+ 
+ void spawn_messages() {
+  if ( vars.get(1).equals("You feel devoid of chaos") )  {
+   SPAWN1 = "Skill status: You feel devoid of chaos (1/7)";
+  }
+
+  else if ( vars.get(1).equals("You feel a slight tingling of chaos inside you") ) {
+   SPAWN1 = "Skill status: You feel a slight tingling of chaos inside you (2/7)";
+  }
+
+  else if ( vars.get(1).equals("You feel chaos pulsing deep inside you") ) {
+   SPAWN1 = "Skill status: You feel chaos pulsing deep inside you (3/7)";
+  }
+
+  else if ( vars.get(1).equals("You feel chaos pulsing inside your veins") ) {
+   SPAWN1 = "Skill status: You feel chaos pulsing inside your veins (4/7)";
+  }
+  else if ( vars.get(1).equals("You feel chaos energizing your body") ) {
+   SPAWN1 = "Skill status: You feel chaos energizing your body (5/7)";
+  }
+
+  else if ( vars.get(1).equals("You feel chaos pouring out of you") ) {
+   SPAWN1 = "Skill status: You feel chaos pouring out of you (6/7)";
+  }
+
+  else if ( vars.get(1).equals("You feel your veins throbbing with pure chaos") ) {
+   SPAWN1 = "Skill status: You feel your veins throbbing with pure chaos (7/7)";
+  }
+
+  if ( vars.get(2).equals("Your skin feels smooth") ) {
+   SPAWN2 = "Tentacle status: Your skin feels smooth (1/8)";
+  }
+
+  else if ( vars.get(2).equals("You feel a tickling in your torso") ) {
+   SPAWN2 = "Tentacle status: You feel a tickling in your torso (2/8)";
+  }
+
+  else if ( vars.get(2).equals("Your feel a tingling in your torso") ) {
+   SPAWN2 = "Tentacle status: Your feel a tingling in your torso (3/8)";
+  }
+
+  else if ( vars.get(2).equals("You feel a burning bump in your side") ) {
+   SPAWN2 = "Tentacle status: You feel a burning bump in your side (4/8)";
+  }
+
+  else if ( vars.get(2).equals("There's a bulging mass in your side") ) {
+   SPAWN2 = "Tentacle status: There's a bulging mass in your side (5/8)";
+  }
+
+  else if ( vars.get(2).equals("A glowing, bulging mass is burning in your side") ) {
+   SPAWN2 = "Tentacle status: A glowing, bulging mass is burning in your side (6/8)";
+  }
+
+  else if ( vars.get(2).equals("There's a seeting mass in your side") ) {
+   SPAWN2 = "Tentacle status: There's a seeting mass in your side (7/8)";
+  }
+
+  else if ( vars.get(2).equals("Your side is about to burst by the seething mass lodged there") ) {
+   SPAWN2 = "Tentacle status: Your side is about to burst by the seething mass lodged there (8/8)";
+  }
+  
+  spawn_message1();
+ }
+
+ void spawn_message1() {
+  clientGUI.printText("general", "You have prayed to Azzarakk! And here is the status.\n","FF7700");
+  clientGUI.printText("general", "----------------------------------------------------\n","FF7700");
+  spawn_message2();
+ }
+
+ void spawn_message2() {
+  clientGUI.printText("general", "" + SPAWN1 + "\n","00FF00");
+  spawn_message3();
+ }
+
+ void spawn_message3() {
+  clientGUI.printText("general", "" + SPAWN2 + "\n","00FF00");
+  clientGUI.printText("general", "----------------------------------------------------\n","FF7700");
+ }
